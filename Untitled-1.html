@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DPR Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;font-family:"Segoe UI",sans-serif}
+body{
+  margin:0;
+  background:#f4f6fb;
+  overflow-y:auto;
+}
+
+/* Progress Bar */
+
+/* Sidebar */
+.sidebar{
+    width:260px;
+    background:#1f3c88;
+    color:#fff;
+    padding:30px 20px;
+    position:fixed;
+    height:100%
+}
+.sidebar h2{font-size:24px;margin-bottom:35px}
+.nav-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+    cursor:pointer;
+    font-size:19px
+}
+.dot{
+    width:14px;height:14px;
+    border-radius:50%;
+    background:red
+}
+
+/* Main */
+.main{
+    margin-left:260px;
+    padding:25px;
+    width:100%;
+    margin-top:8px
+}
+
+/* Containers */
+.container{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    margin-bottom:22px
+}
+.container.blue{background:#e6edff}
+.container h3{margin-top:0;color:#1f3c88}
+
+/* Fields */
+.field{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:12px
+}
+.field label{
+    margin-bottom:5px;
+    font-weight:600;
+    font-size:16px
+}
+
+input,select{
+    padding:7px 9px;
+    font-size:14px;
+    border-radius:5px;
+    border:1px solid #ccc;
+    height:36px;
+    width:50%
+}
+
+/* different Fields length */
+.w-10 { width:10% !important; }
+.w-15 { width:15% !important; }
+.w-20 { width:20% !important; }
+.w-25 { width:25% !important; }
+.w-40 { width:40% !important; }
+.w-50 { width:50% !important; }
+.w-60 { width:60% !important; }
+.w-75 { width:75% !important; }
+.w-100 { width:100% !important; }
+
+
+.radio{
+    display:flex;
+    gap:20px;
+    font-size:14px
+}
+input[type="radio"] { transform: scale(0.6); }
+
+button{
+    background:#4b7bec;
+    color:#fff;
+    padding:11px 28px;
+    border:none;
+    border-radius:6px;
+    font-size:15px;
+    cursor:pointer
+}
+
+.error{ color:red;font-size:12px;margin-top:4px }
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Digital Consultant</h2>
+    <div class="nav-item" onclick="goTo('personal')">
+        Personal Information <span class="dot" id="dot1"></span>
+    </div>
+    <div class="nav-item" onclick="goTo('survey')">
+        Survey Information <span class="dot" id="dot2"></span>
+    </div>
+    <div class="nav-item" onclick="goTo('output')">
+        Expected Output <span class="dot" id="dot3"></span>
+    </div>
+</div>
+
+<div class="main">
+  <form id="dprForm">
+
+    <div class="container blue">
+      <h3>Details About Your Business</h3>
+    </div>
+
+    <!-- ================= PERSONAL SECTION ================= -->
+    <div class="container" id="personal">
+      <h3>Personal Information</h3>
+
+      <div class="field">
+        <label>User Type *</label>
+        <select name="userType" id="userType" class="w-15" required data-section="1">
+          <option value="">Select User Type</option>
+          <option value="Company">Company</option>
+          <option value="Startup">Start Up</option>
+        </select>
+      </div>
+
+      <!-- COMPANY FIELDS -->
+      <div id="companyFields" style="display:none">
+
+      <div class="field">
+        <label>Company Name</label>
+        <input name="companyName" class="w-25" data-section="1">
+      </div>
+
+      <div class="field">
+        <label>Company Type</label>
+        <input name="property" class="w-25" data-section="1">
+      </div>
+
+      <div class="field">
+        <label>Address of Property</label>
+        <label><h3>Line 1</h3></label>
+        <input name="address" class="w-50" data-section="1">
+      </div>
+
+      <div class="field">
+        <label>Rented</label>
+        <select name="rented" class="w-15" data-section="1">
+          <option value="">Select User Type</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- STARTUP FIELDS -->
+<div id="startupFields" style="display:none">
+
+<div class="field">
+<label>Full Name</label>
+<input name="fullName" class="w-25" data-section="1">
+</div>
+
+<div class="field">
+<label>Have you built manufacturing unit?</label>
+<div class="radio">
+<label><input type="radio" name="manufacturingUnit" value="Yes" data-section="1"> Yes</label>
+<label><input type="radio" name="manufacturingUnit" value="No" data-section="1"> No</label>
+</div>
+</div>
+
+<div class="field">
+<label>Address of your property</label>
+<input name="startupAddress" class="w-50" data-section="1">
+</div>
+</div>
+
+<!-- COMMON FIELDS -->
+<div class="field">
+<label>Contact Number</label>
+<input name="contactNumber" type="tel" class="w-15" required maxlength="10" pattern="[0-9]{10}" data-section="1">
+<span class="error" id="contactError"></span>
+</div>
+
+<div class="field">
+<label>Email Address</label>
+<input name="email" type="email" class="w-40" required data-section="1">
+<span class="error" id="emailError"></span>
+</div>
+
+<div class="field">
+<label>Product</label>
+<select name="productType" class="w-15" onchange="toggleProduct(this)" required data-section="1">
+<option value="">Select product</option>
+<option value="veg">Vegetable</option>
+<option value="fruit">Fruit</option>
+<option value="both">Fruit & Vegetable</option>
+</select>
+</div>
+
+<div class="field" id="veg" style="display:none">
+<label>Which Vegetable</label>
+<input name="vegetables" data-section="1">
+</div>
+
+<div class="field" id="fruit" style="display:none">
+<label>Which Fruit</label>
+<input name="fruits" data-section="1">
+</div>
+
+<div class="field" id="manufactureField" style="display:none">
+<label>Product you would like to manufacture</label>
+<input name="manufactureProduct" data-section="1">
+</div>
+
+</div>
+
+<!-- ================= SURVEY ================= -->
+<div class="container" id="survey">
+<h3>Survey Information</h3>
+
+<div class="field">
+<label>Any Previous Knowledge of Food Processing</label>
+<select name="knowledge" id="knowledge" required data-section="2">
+<option value=""> Select </option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<div class="field">
+  <label>Have you done market survey?</label>
+  <select name="marketsurvey" id="marketsurvey" onchange="handleMarketSurvey(this.value)" required data-section="2">
+    <option value=""> Select </option>
+    <option value="Yes"> Yes </option>
+    <option value="No"> No </option>
+  </select>
+</div>
+
+<div id="surveyFields" style="display:none">
+
+  <div class="field">
+  <label>Harvesting Time</label>
+  <input name="harvestingTime" placeholder="Harvesting time" data-section="2">
+</div>
+  
+<div class="field">
+  <label>Distance from Raw Material</label>
+  <input name="distanceRawMaterial" placeholder="Distance" data-section="2">
+</div>
+
+<div class="field">
+  <label>Logistic Cost</label>
+  <input name="logisticCost" placeholder="Logistic cost" data-section="2">
+</div>
+
+<div class="field">
+  <label>Maturity</label>
+  <input name="maturity" placeholder="Maturity" data-section="2">
+</div>
+
+<div class="field">
+  <label>Size</label>
+  <input name="size" placeholder="Size" data-section="2">
+</div>
+
+<div class="field">
+  <label>Cost of Raw Material</label>
+  <input name="rawMaterialCost" placeholder="Cost" data-section="2">
+</div>
+
+<div class="field">
+  <label>Yield % Monthly</label>
+  <input name="yieldMonthly" placeholder="Yield %" data-section="2">
+</div>
+
+<div class="field">
+  <label>Acceptable Blemishes</label>
+  <input name="blemishes" placeholder="Blemishes" data-section="2">
+</div>
+
+<div class="field">
+  <label>Test Required</label>
+  <select name="testrequired" id="testrequired" onchange="toggleTestFields(this.value)" data-section="2">
+    <option value="">Select</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+</div>
+
+<div id="testFields" style="display:none">
+
+<div class="field">
+  <label>Water Test</label>
+  <select name="waterTest" data-section="2">
+    <option value="">Select</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+</div>
+
+<div class="field">
+  <label>Soil Test</label>
+  <select name="soilTest" data-section="2">
+    <option value="">Select</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+</div>
+</div>
+
+<div class="field">
+  <label>Power Required</label>
+  <select name="powerRequired" data-section="2">
+    <option value="">Select</option>
+    <option>Solar</option>
+    <option>Electricity</option>
+  </select>
+</div>
+
+<div class="field">
+  <label>Energy Cost</label>
+  <input name="energyCost" data-section="2">
+</div>
+
+<div class="field">
+  <label>Water Cost</label>
+  <input name="waterCost" data-section="2">
+</div>
+
+<div class="field">
+  <label>Manpower Cost</label>
+  <input name="manpowerCost" data-section="2">
+</div>
+
+<div class="field">
+  <label>Construction Cost</label>
+  <input name="constructionCost" data-section="2">
+</div>
+
+</div>
+</div>
+
+<!-- ================= EXPECTED ================= -->
+<div class="container" id="output">
+<h3>Expected Output</h3>
+<div class="field"><label>Expected Yield %</label><input name="expectedYield" data-section="3"></div>
+<div class="field"><label>Expected Quality</label><input name="expectedQuality" data-section="3"></div>
+<button type="submit">Submit</button>
+</div>
+
+</form>
+</div>
+
+<script>
+
+// ================= SMART DOT SYSTEM =================
+
+const sections = {
+  1: document.getElementById("dot1"),
+  2: document.getElementById("dot2"),
+  3: document.getElementById("dot3")
+};
+
+function isVisible(element) {
+  return element.offsetParent !== null;
+}
+
+function updateSectionStatus(sectionNumber) {
+  const inputs = document.querySelectorAll(`[data-section="${sectionNumber}"]`);
+
+  let visibleInputs = [];
+  let filledCount = 0;
+
+  inputs.forEach(input => {
+    if (isVisible(input)) {
+      visibleInputs.push(input);
+
+      if (
+        (input.type === "radio" && input.checked) ||
+        (input.type !== "radio" && input.value.trim() !== "")
+      ) {
+        filledCount++;
+      }
+    }
+  });
+
+  const totalVisible = visibleInputs.length;
+
+  if (filledCount === 0) {
+    sections[sectionNumber].style.background = "red";
+  } 
+  else if (filledCount < totalVisible) {
+    sections[sectionNumber].style.background = "orange";
+  } 
+  else {
+    sections[sectionNumber].style.background = "green";
+  }
+}
+
+// Attach listeners
+document.querySelectorAll("[data-section]").forEach(input => {
+  input.addEventListener("input", () => {
+    updateSectionStatus(input.dataset.section);
+  });
+  input.addEventListener("change", () => {
+    updateSectionStatus(input.dataset.section);
+  });
+});
+
+// Initialize on load
+updateSectionStatus(1);
+updateSectionStatus(2);
+updateSectionStatus(3);
+
+function toggleProduct(s){
+veg.style.display=(s.value==="veg"||s.value==="both")?"block":"none";
+fruit.style.display=(s.value==="fruit"||s.value==="both")?"block":"none";
+manufactureField.style.display=s.value?"block":"none";
+}
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:"smooth"});}
+
+function handleMarketSurvey(value){
+document.getElementById("surveyFields").style.display =
+value === "Yes" ? "block" : "none";
+}
+
+function toggleTestFields(value){
+document.getElementById("testFields").style.display =
+value === "Yes" ? "block" : "none";
+}
+
+document.getElementById("userType").addEventListener("change",function(){
+const isCompany = this.value === "Company";
+const isStartup = this.value === "Startup";
+  companyFields.style.display=this.value==="Company"?"block":"none";
+  startupFields.style.display=this.value==="Startup"?"block":"none";
+  // COMPANY required toggle
+  document.querySelector('[name="companyName"]').required = isCompany;
+  document.querySelector('[name="property"]').required = isCompany;
+  document.querySelector('[name="address"]').required = isCompany;
+  document.querySelector('[name="rented"]').required = isCompany;
+
+  // STARTUP required toggle
+  document.querySelector('[name="fullName"]').required = isStartup;
+  document.querySelectorAll('[name="manufacturingUnit"]').forEach(r => r.required = isStartup);
+  document.querySelector('[name="startupAddress"]').required = isStartup;
+});
+
+document.getElementById("dprForm").addEventListener("submit",async function(e){
+e.preventDefault();
+if(!validateForm()) return;
+
+const marketSurvey = document.querySelector('[name="marketsurvey"]').value || "No";
+const data={
+personalInfo:{
+userType:document.querySelector('[name="userType"]').value,
+companyName:document.querySelector('[name="companyName"]')?.value||"None",
+property:document.querySelector('[name="property"]')?.value||"None",
+address:document.querySelector('[name="address"]')?.value||"None",
+rented:document.querySelector('[name="rented"]')?.value||"None",
+fullName:document.querySelector('[name="fullName"]')?.value||"None",
+manufacturingUnit:document.querySelector('[name="manufacturingUnit"]:checked')?.value||"None",
+startupAddress:document.querySelector('[name="startupAddress"]')?.value||"None",
+contactNumber:document.querySelector('[name="contactNumber"]').value,
+email:document.querySelector('[name="email"]').value,
+productType:document.querySelector('[name="productType"]').value,
+fruits:document.querySelector('[name="fruits"]')?.value||"None",
+vegetables:document.querySelector('[name="vegetables"]')?.value||"None"
+},
+
+manufactureProduct:document.querySelector('[name="manufactureProduct"]')?.value||"None",
+surveyInfo:{
+marketSurvey,
+knowledge:document.querySelector('[name="knowledge"]').value || "None",
+
+harvestingTime:marketSurvey==="Yes"?document.querySelector('[name="harvestingTime"]')?.value:"None",
+distanceRawMaterial:marketSurvey==="Yes"?document.querySelector('[name="distanceRawMaterial"]')?.value:"None",
+logisticCost:marketSurvey==="Yes"?document.querySelector('[name="logisticCost"]')?.value:"None",
+maturity:marketSurvey==="Yes"?document.querySelector('[name="maturity"]')?.value:"None",
+size:marketSurvey==="Yes"?document.querySelector('[name="size"]')?.value:"None",
+rawMaterialCost:marketSurvey==="Yes"?document.querySelector('[name="rawMaterialCost"]')?.value:"None",
+yieldMonthly:marketSurvey==="Yes"?document.querySelector('[name="yieldMonthly"]')?.value:"None",
+blemishes:marketSurvey==="Yes"?document.querySelector('[name="blemishes"]')?.value:"None",
+
+testrequired:marketSurvey==="Yes"?document.querySelector('[name="testrequired"]')?.value:"None",
+waterTest:marketSurvey==="Yes"?document.querySelector('[name="waterTest"]')?.value:"None",
+soilTest:marketSurvey==="Yes"?document.querySelector('[name="soilTest"]')?.value:"None",
+
+powerRequired:marketSurvey==="Yes"?document.querySelector('[name="powerRequired"]')?.value:"None",
+energyCost:marketSurvey==="Yes"?document.querySelector('[name="energyCost"]')?.value:"None",
+waterCost:marketSurvey==="Yes"?document.querySelector('[name="waterCost"]')?.value:"None",
+manpowerCost:marketSurvey==="Yes"?document.querySelector('[name="manpowerCost"]')?.value:"None",
+constructionCost:marketSurvey==="Yes"?document.querySelector('[name="constructionCost"]')?.value:"None"
+},
+
+expectedOutput:{
+expectedYield:document.querySelector('[name="expectedYield"]').value||"None",
+expectedQuality:document.querySelector('[name="expectedQuality"]').value||"None"
+}
+
+};
+
+const res=await fetch("http://localhost:5000/submit-dpr",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+});
+const result=await res.json();
+alert(result.message);
+});
+
+function validateForm(){
+let valid=true;
+const email=document.querySelector('[name="email"]');
+const contact=document.querySelector('[name="contactNumber"]');
+if(!email.checkValidity()){emailError.textContent="Invalid email";valid=false;}else emailError.textContent="";
+if(!/^[0-9]{10}$/.test(contact.value)){contactError.textContent="Enter 10 digit number";valid=false;}else contactError.textContent="";
+return valid;
+}
+</script>
+
+</body>
+</html>

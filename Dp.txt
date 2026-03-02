@@ -1,3 +1,57 @@
+CREATE TABLE dpr_forms (
+    id SERIAL PRIMARY KEY,
+
+    -- User Type
+    user_type VARCHAR(20) NOT NULL,
+
+    -- Company Fields
+    company_name VARCHAR(150),
+    company_type VARCHAR(150),
+    company_address TEXT,
+    rented VARCHAR(10),
+
+    -- Startup Fields
+    full_name VARCHAR(150),
+    manufacturing_unit VARCHAR(10),
+    startup_address TEXT,
+
+    -- Common Fields
+    contact_number VARCHAR(15) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    product_type VARCHAR(20),
+    fruits TEXT,
+    vegetables TEXT,
+    manufacture_product TEXT,
+
+    -- Survey
+    knowledge VARCHAR(10),
+    market_survey VARCHAR(10),
+    harvesting_time TEXT,
+    distance_raw_material TEXT,
+    logistic_cost TEXT,
+    maturity TEXT,
+    size TEXT,
+    raw_material_cost TEXT,
+    yield_monthly TEXT,
+    blemishes TEXT,
+    test_required VARCHAR(10),
+    water_test VARCHAR(10),
+    soil_test VARCHAR(10),
+    power_required VARCHAR(20),
+    energy_cost TEXT,
+    water_cost TEXT,
+    manpower_cost TEXT,
+    construction_cost TEXT,
+
+    -- Expected Output
+    expected_yield TEXT,
+    expected_quality TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 "id"
 "user_type"
 "company_name"
